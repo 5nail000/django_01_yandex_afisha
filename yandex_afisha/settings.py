@@ -10,43 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-import environ
 import os
+from pathlib import Path
 
-# from django.contrib.gis import gdal
-# if gdal.HAS_GDAL:
-#     os.environ['GDAL_LIBRARY_PATH'] = gdal.GDAL_LIBRARY_PATH
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(env.str('ENV_PATH', '.env'))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECRET_KEY = 'REPLACE_ME'
-# DEBUG = False
-# ALLOWED_HOSTS = ['*']
-
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG', 'on').split(',')
 SECRET_KEY = env('SECRET_KEY')
-ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # # SSL
 
 SECURE_SSL_REDIRECT = False
-
-'''
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-# '''
 
 # Application definition
 
